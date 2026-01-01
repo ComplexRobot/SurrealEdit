@@ -2,4 +2,10 @@
   <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'SurrealEdit' ">
     <BaseIntermediateOutputPath>Build</BaseIntermediateOutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'SurrealEdit.Browser' ">
+    <BaseIntermediateOutputPath>Build</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'SurrealEdit.Desktop' ">
+    <BaseIntermediateOutputPath>Build</BaseIntermediateOutputPath>
+  </PropertyGroup>
 </Project>

@@ -1,8 +1,5 @@
 <Solution>
-  <Configurations>
-    <Platform Name="x64" />
-  </Configurations>
-  <Project Path="SurrealEdit.csproj">
-    <Platform Project="x64" />
-  </Project>
+  <Project Path="SurrealEdit.csproj" />
+  <Project Path="SurrealEdit.Browser/SurrealEdit.Browser.csproj" />
+  <Project Path="SurrealEdit.Desktop/SurrealEdit.Desktop.csproj" />
 </Solution>
