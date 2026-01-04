@@ -7,14 +7,13 @@ using Avalonia.Browser;
 
 namespace SurrealEdit.Browser;
 
-internal sealed partial class Program
-{
-    private static Task Main(string[] args) =>
-        BuildAvaloniaApp()
-        .WithInterFont()
-        .StartBrowserAppAsync("out");
+internal sealed partial class Program {
+	private static Task Main(string[] _) =>
+		BuildAvaloniaApp()
+		.WithInterFont()
+		.StartBrowserAppAsync("out");
 
-    public static AppBuilder BuildAvaloniaApp() =>
-        AppBuilder.Configure<App>()
-        .WithInterFont();
+	public static AppBuilder BuildAvaloniaApp() =>
+		AppBuilder.Configure<App>()
+		.WithInterFont();
 }

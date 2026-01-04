@@ -7,6 +7,8 @@
     <IntermediateOutputPath>Build\$(Configuration)\obj</IntermediateOutputPath>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
