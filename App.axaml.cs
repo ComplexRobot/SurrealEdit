@@ -8,9 +8,18 @@ using SurrealEdit.Views;
 
 namespace SurrealEdit;
 
+/// <summary>
+/// The main <seealso cref="Application"/>.
+/// </summary>
 public partial class App : Application {
+	/// <summary>
+	/// Loads the <see cref="AvaloniaXamlLoader"/>.
+	/// </summary>
 	public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
+	/// <summary>
+	/// Initializes the data context of the <seealso cref="MainViewModel"/>.
+	/// </summary>
 	public override void OnFrameworkInitializationCompleted() {
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 			// Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -28,7 +37,10 @@ public partial class App : Application {
 		base.OnFrameworkInitializationCompleted();
 	}
 
-	private void DisableAvaloniaDataAnnotationValidation() {
+	/// <summary>
+	/// This is used with desktop deployment to prevent duplicate data validations.
+	/// </summary>
+	private static void DisableAvaloniaDataAnnotationValidation() {
 		// Get an array of plugins to remove
 		DataAnnotationsValidationPlugin[] dataValidationPluginsToRemove =
 			[.. BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>()];

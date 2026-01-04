@@ -11,6 +11,9 @@ indent_size = 4
 indent_style = tab
 tab_width = 4
 
+# Editor Guidelines extension
+guidelines = 160
+
 # New line preferences
 end_of_line = crlf
 insert_final_newline = false
@@ -36,7 +39,7 @@ file_header_template = unset
 dotnet_diagnostic.IDE0005.severity = warning
 
 # Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = suggestion
+dotnet_diagnostic.CS1591.severity = warning
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:warning
