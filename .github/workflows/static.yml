@@ -34,7 +34,9 @@ jobs:
         with:
           submodules: recursive
       - name: Publish Web Page
-        run: dotnet publish ./SurrealEdit.Browser/SurrealEdit.Browser.csproj -c Release -o publish
+        run: |
+          dotnet workload install wasm-tools
+          dotnet publish ./SurrealEdit.Browser/SurrealEdit.Browser.csproj -c Release -o publish
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
