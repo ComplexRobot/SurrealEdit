@@ -7,16 +7,21 @@ root = true
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
-indent_size = 4
 indent_style = tab
-tab_width = 4
-
-# Editor Guidelines extension
-guidelines = 160
+indent_size = tab
 
 # New line preferences
 end_of_line = crlf
 insert_final_newline = false
+
+# Character set
+charset = utf-8
+
+# Trim white space from end of lines
+trim_trailing_whitespace = true
+
+# Editor Guidelines extension
+guidelines = 160
 
 #### .NET Code Actions ####
 
