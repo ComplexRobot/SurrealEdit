@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="SurrealEdit.csproj" />
+  <Project Path="SurrealEdit/SurrealEdit.csproj" />
   <Project Path="SurrealEdit.Browser/SurrealEdit.Browser.csproj" />
   <Project Path="SurrealEdit.Desktop/SurrealEdit.Desktop.csproj" />
 </Solution>

@@ -1,11 +1,17 @@
 <Project>
-  <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'SurrealEdit' ">
-    <BaseIntermediateOutputPath>Build</BaseIntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'SurrealEdit.Browser' ">
-    <BaseIntermediateOutputPath>Build</BaseIntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'SurrealEdit.Desktop' ">
-    <BaseIntermediateOutputPath>Build</BaseIntermediateOutputPath>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible>true</IsAotCompatible>
+    <IsTrimmable>true</IsTrimmable>
+    <OutputPath>$(MSBuildThisFileDirectory)\.build\$(Configuration)\$(MSBuildProjectName)</OutputPath>
+    <BaseIntermediateOutputPath>$(OutputPath)\obj</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <PathMap>$(MSBuildThisFileDirectory)=.</PathMap>
   </PropertyGroup>
 </Project>
