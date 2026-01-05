@@ -22,8 +22,8 @@ public class ViewLocator : IDataTemplate {
 	/// </remarks>
 	/// <param name="param">The view model.</param>
 	/// <returns>
-	/// A newly created <see cref="Control"/> based upon the type of <paramref name="param"/> or an error message <see cref="TextBlock"/> if the view type was
-	/// not found.
+	/// A newly created <see cref="Control"/> based upon the type of <paramref name="param"/> or an error message
+	/// <see cref="TextBlock"/> if the view type was not found.
 	/// </returns>
 	public Control? Build(object? param) {
 		if (param is null) {
@@ -40,6 +40,7 @@ public class ViewLocator : IDataTemplate {
 	/// Checks if an object is a valid view model.
 	/// </summary>
 	/// <param name="data">The object to check.</param>
-	/// <returns><see langword="true"/> if <paramref name="data"/> is derived from <seealso cref="ViewModelBase"/>. <see langword="false"/> otherwise.</returns>
+	/// <returns><see langword="true"/> if <paramref name="data"/> is derived from <seealso cref="ViewModelBase"/>.
+	/// <see langword="false"/> otherwise.</returns>
 	public bool Match(object? data) => data is ViewModelBase;
 }

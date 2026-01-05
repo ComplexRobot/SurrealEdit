@@ -21,7 +21,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 
 # Editor Guidelines extension
-guidelines = 160
+guidelines = 120
 
 #### .NET Code Actions ####
 
@@ -44,7 +44,13 @@ file_header_template = unset
 dotnet_diagnostic.IDE0005.severity = warning
 
 # Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CA1051.severity = warning
+
+# Do not declare visible instance fields
 dotnet_diagnostic.CS1591.severity = warning
+
+# Non-constant fields should not be visible
+dotnet_diagnostic.CA2211.severity = warning
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:warning
@@ -130,7 +136,7 @@ csharp_style_conditional_delegate_call = true:warning
 # Modifier preferences
 csharp_prefer_static_anonymous_function = true:warning
 csharp_prefer_static_local_function = true:warning
-csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:suggestion
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:warning
 csharp_style_prefer_readonly_struct = true:warning
 csharp_style_prefer_readonly_struct_member = true:warning
 
@@ -220,42 +226,50 @@ csharp_preserve_single_line_statements = false
 
 #### Naming styles ####
 
-# Naming rules
+# Default naming convention - Pascal case
+dotnet_naming_symbols.default.applicable_kinds = *
+dotnet_naming_symbols.default.applicable_accessibilities = *
+
+dotnet_naming_rule.default_should_be_pascal_case.severity = warning
+dotnet_naming_rule.default_should_be_pascal_case.symbols = default
+dotnet_naming_rule.default_should_be_pascal_case.style = pascal_case
+
+# Interfaces - Pascal case with leading I
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = *
 
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = warning
-dotnet_naming_rule.types_should_be_pascal_case.symbols = types
-dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+# Locals and parameters - Camel case
+dotnet_naming_symbols.locals_parameters.applicable_kinds = local, parameter
+dotnet_naming_symbols.locals_parameters.applicable_accessibilities = *
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
-dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.locals_parameters_should_be_camel_case.severity = warning
+dotnet_naming_rule.locals_parameters_should_be_camel_case.symbols = locals_parameters
+dotnet_naming_rule.locals_parameters_should_be_camel_case.style = camel_case
 
-# Symbol specifications
+# private and internal fields - Camel case with leading underscore
+dotnet_naming_symbols.private_internal_fields.applicable_kinds = field
+dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = private, internal
 
-dotnet_naming_symbols.interface.applicable_kinds = interface
-dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
-
-dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
-dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.types.required_modifiers = 
-
-dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
-dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_field_members.required_modifiers = 
+dotnet_naming_rule.private_internal_fields_should_be_underscore_camel_case.severity = warning
+dotnet_naming_rule.private_internal_fields_should_be_underscore_camel_case.symbols = private_internal_fields
+dotnet_naming_rule.private_internal_fields_should_be_underscore_camel_case.style = underscore_camel_case
 
 # Naming styles
 
-dotnet_naming_style.pascal_case.required_prefix = 
-dotnet_naming_style.pascal_case.required_suffix = 
-dotnet_naming_style.pascal_case.word_separator = 
+# Pascal case
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 
+# Pascal case with leading I
 dotnet_naming_style.begins_with_i.required_prefix = I
-dotnet_naming_style.begins_with_i.required_suffix = 
-dotnet_naming_style.begins_with_i.word_separator = 
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# Camel case
+dotnet_naming_style.camel_case.capitalization = camel_case 
+
+# Camel case with leading underscore
+dotnet_naming_style.underscore_camel_case.required_prefix = _
+dotnet_naming_style.underscore_camel_case.capitalization = camel_case 
