@@ -48,7 +48,7 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// </summary>
 	/// <returns>(<paramref name="value"/> + <paramref name="amount"/>) or <see cref="IMinMaxValue{TSelf}.MaxValue">
 	/// MaxValue</see> if it overflows.</returns>
-	private T2 IncrementWithCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
+	private static T2 IncrementWithCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
 		try {
 			checked {
 				return value + amount;
@@ -63,14 +63,14 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Only applies to <see cref="BigInteger">BigInteger</see>.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> + <paramref name="amount"/>)</returns>
-	private T2 IncrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> => value + amount;
+	private static T2 IncrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> => value + amount;
 
 	/// <summary>
 	/// Decrements with a check to prevent underflow.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> - <paramref name="amount"/>) or <see cref="IMinMaxValue{TSelf}.MinValue">
 	/// MinValue</see> if it underflows.</returns>
-	private T2 DecrementWithCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
+	private static T2 DecrementWithCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
 		try {
 			checked {
 				return value - amount;
@@ -85,14 +85,14 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Only applies to <see cref="BigInteger">BigInteger</see>.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> - <paramref name="amount"/>)</returns>
-	private T2 DecrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> => value - amount;
+	private static T2 DecrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> => value - amount;
 
 	/// <summary>
 	/// Correctly rounds to a value of (<see cref="StepStart">StepStart</see> + <see cref="StepAmount">StepAmount</see>
 	/// * X).<br/>
 	/// Integer version: <see langword="int"/>, <see langword="long"/>, <see langword="byte"/>, etc.
 	/// </summary>
-	private T2 ValidateWithTypeCheck<T2>(T2 value, T2 stepStart, T2 stepAmount)
+	private static T2 ValidateWithTypeCheck<T2>(T2 value, T2 stepStart, T2 stepAmount)
 		where T2 : IBinaryInteger<T2> =>
 		stepStart + (value - stepStart + stepAmount / T2.CreateTruncating(2)) / stepAmount * stepAmount;
 
@@ -103,7 +103,7 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// </summary>
 	/// <exception cref="OverflowException"/>
 	[OverloadResolutionPriority(1)]
-	private T2 ValidateWithTypeCheck<T2>(T2 value, T2 stepStart, T2 stepAmount, int? _ = default)
+	private static T2 ValidateWithTypeCheck<T2>(T2 value, T2 stepStart, T2 stepAmount, int? _ = default)
 		where T2 : IFloatingPoint<T2> =>
 		stepStart + T2.CreateChecked(Math.Round(decimal.CreateChecked((value - stepStart) / stepAmount))) * stepAmount;
 
@@ -112,7 +112,6 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Should never be called.
 	/// </summary>
 	/// <exception cref="Exception"/>
-	private T2 ValidateWithTypeCheck<T2>(T2 value, T2 stepStart, T2 stepAmount, bool? _ = default) =>
+	private static T2 ValidateWithTypeCheck<T2>(T2 value, T2 stepStart, T2 stepAmount, bool? _ = default) =>
 		throw new Exception($"Unhandled numeric type during validation: {typeof(T2)}");
-
 }
