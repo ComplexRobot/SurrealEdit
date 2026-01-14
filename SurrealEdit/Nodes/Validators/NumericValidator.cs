@@ -63,7 +63,8 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Only applies to <see cref="BigInteger">BigInteger</see>.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> + <paramref name="amount"/>)</returns>
-	private static T2 IncrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> => value + amount;
+	private static T2 IncrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> =>
+		value + amount;
 
 	/// <summary>
 	/// Decrements with a check to prevent underflow.
@@ -85,7 +86,8 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Only applies to <see cref="BigInteger">BigInteger</see>.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> - <paramref name="amount"/>)</returns>
-	private static T2 DecrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> => value - amount;
+	private static T2 DecrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> =>
+		value - amount;
 
 	/// <summary>
 	/// Correctly rounds to a value of (<see cref="StepStart">StepStart</see> + <see cref="StepAmount">StepAmount</see>
