@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using SurrealEdit.Nodes.Validators;
 
 namespace SurrealEdit.Nodes;
@@ -8,11 +7,10 @@ namespace SurrealEdit.Nodes;
 /// </summary>
 public interface INodeInput : INodeIO {
 	/// <summary>
-	/// <see cref="Dictionary{TKey, TValue}">Dictionary</see> of dependencies.<br/>
-	/// <b>Key</b>: The name of the node's input.<br/>
-	/// <b>Value</b>: A node's output value of the form "Name.Output".
+	/// An optional dependency connecting another node's output to this input.<br/>
+	/// It is a node's output value of the form "Name.Output".
 	/// </summary>
-	Dictionary<string, string> Dependencies { get; set; }
+	string? Dependency { get; set; }
 	/// <summary>
 	/// Validator for the data.
 	/// </summary>
