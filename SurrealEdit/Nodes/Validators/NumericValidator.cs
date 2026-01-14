@@ -24,13 +24,13 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 
 	/// <inheritdoc/>
 	public void Increment() {
-		Value.Value = IncrementWithCheck(Value.Value, StepAmount);
+		Value.Value = IncrementWithOverflowCheck(Value.Value, StepAmount);
 		Validate();
 	}
 
 	/// <inheritdoc/>
 	public void Decrement() {
-		Value.Value = DecrementWithCheck(Value.Value, StepAmount);
+		Value.Value = DecrementWithUnderflowCheck(Value.Value, StepAmount);
 		Validate();
 	}
 
@@ -48,7 +48,7 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// </summary>
 	/// <returns>(<paramref name="value"/> + <paramref name="amount"/>) or <see cref="IMinMaxValue{TSelf}.MaxValue">
 	/// MaxValue</see> if it overflows.</returns>
-	private static T2 IncrementWithCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
+	private static T2 IncrementWithOverflowCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
 		try {
 			checked {
 				return value + amount;
@@ -63,7 +63,7 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Only applies to <see cref="BigInteger">BigInteger</see>.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> + <paramref name="amount"/>)</returns>
-	private static T2 IncrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> =>
+	private static T2 IncrementWithOverflowCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> =>
 		value + amount;
 
 	/// <summary>
@@ -71,7 +71,7 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// </summary>
 	/// <returns>(<paramref name="value"/> - <paramref name="amount"/>) or <see cref="IMinMaxValue{TSelf}.MinValue">
 	/// MinValue</see> if it underflows.</returns>
-	private static T2 DecrementWithCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
+	private static T2 DecrementWithUnderflowCheck<T2>(T2 value, T2 amount) where T2 : INumber<T2>, IMinMaxValue<T2> {
 		try {
 			checked {
 				return value - amount;
@@ -86,7 +86,7 @@ public class NumericValidator<T> : Validator<T>, INumericValidator where T : str
 	/// Only applies to <see cref="BigInteger">BigInteger</see>.
 	/// </summary>
 	/// <returns>(<paramref name="value"/> - <paramref name="amount"/>)</returns>
-	private static T2 DecrementWithCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> =>
+	private static T2 DecrementWithUnderflowCheck<T2>(T2 value, T2 amount, int? _ = default) where T2 : INumber<T2> =>
 		value - amount;
 
 	/// <summary>
