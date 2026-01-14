@@ -8,6 +8,10 @@ namespace SurrealEdit.Nodes;
 /// </summary>
 public abstract class Node : INode {
 	/// <inheritdoc/>
+	public abstract string? Name { get; set; }
+	/// <inheritdoc/>
+	public abstract string? Description { get; set; }
+	/// <inheritdoc/>
 	public abstract Dictionary<string, INodeInput> Inputs { get; set; }
 	/// <inheritdoc/>
 	public abstract Dictionary<string, INodeIO> Outputs { get; set; }

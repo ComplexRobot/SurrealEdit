@@ -6,7 +6,12 @@ namespace SurrealEdit.Nodes;
 /// Base interface for generic class <seealso cref="NodeIO{T}">NodeIO</seealso>.<br/>
 /// Represents a single input or output of a <seealso cref="INode">Node</seealso>.
 /// </summary>
-public interface INodeIO {
+public interface INodeIO : IDescriptor {
+	/// <summary>
+	/// Type of the data.
+	/// </summary>
+	Type DataType { get; }
+
 	/// <summary>
 	/// Extract the data from the input or output, converting the type if necessary.
 	/// </summary>

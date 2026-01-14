@@ -9,6 +9,12 @@ namespace SurrealEdit.Nodes;
 /// <typeparam name="T">The type of the data.</typeparam>
 public class NodeIO<T> : INodeIO, IValue<T> {
 	/// <inheritdoc/>
+	public string? Name { get; set; } = $"NodeIO<{typeof(T)}>";
+	/// <inheritdoc/>
+	public string? Description { get; set; }
+	/// <inheritdoc/>
+	public Type DataType { get; } = typeof(T);
+	/// <inheritdoc/>
 	public T? Value { get; set; }
 
 	/// <inheritdoc/>

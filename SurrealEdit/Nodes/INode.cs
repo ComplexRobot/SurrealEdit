@@ -6,7 +6,7 @@ namespace SurrealEdit.Nodes;
 /// <summary>
 /// A single-responsibility node for processing data.
 /// </summary>
-public interface INode : IDisposable {
+public interface INode : IDescriptor, IDisposable {
 	/// <summary>
 	/// The named input data of the node.
 	/// </summary>
