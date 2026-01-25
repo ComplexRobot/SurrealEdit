@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SurrealEdit.Nodes;
 
@@ -17,7 +18,7 @@ public abstract class Node : INode {
 	public abstract Dictionary<string, INodeIO> Outputs { get; set; }
 
 	/// <inheritdoc/>
-	public abstract void Process();
+	public abstract Task Process();
 
 	/// <inheritdoc/>
 	public virtual void Dispose() => GC.SuppressFinalize(this);

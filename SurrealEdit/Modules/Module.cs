@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SurrealEdit.Nodes;
 
 namespace SurrealEdit.Modules;
@@ -21,7 +22,6 @@ public class Module : Node {
 	public Dictionary<string, INode> Nodes { get; set; } = [];
 
 	/// <inheritdoc/>
-	public override void Process() {
-
+	public override async Task Process() {
 	}
 }

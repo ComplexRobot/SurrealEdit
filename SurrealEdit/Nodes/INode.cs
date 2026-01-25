@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SurrealEdit.Nodes;
 
@@ -20,5 +21,8 @@ public interface INode : IDescriptor, IDisposable {
 	/// Process the inputs and set the outputs.<br/>
 	/// Do whatever this node is responsible for.
 	/// </summary>
-	void Process();
+	/// <returns>
+	/// A <see cref="Task">Task</see> for asynchronous processing. (Make the method definition <see langword="async"/>.)
+	/// </returns>
+	Task Process();
 }
