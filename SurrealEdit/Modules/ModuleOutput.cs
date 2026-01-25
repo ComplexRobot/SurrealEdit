@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SurrealEdit.Nodes;
 
 namespace SurrealEdit.Modules;
@@ -7,5 +8,5 @@ namespace SurrealEdit.Modules;
 /// </summary>
 public class ModuleOutput<T> : NodeIO<T>, IModuleOutput {
 	/// <inheritdoc/>
-	public string? Dependency { get; set; }
+	public Dictionary<string, string>? Dependency { get; set; }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SurrealEdit.Nodes;
 
 namespace SurrealEdit.Modules;
@@ -8,7 +9,7 @@ namespace SurrealEdit.Modules;
 public interface IModuleOutput : INodeIO {
 	/// <summary>
 	/// Reference to the output of a node to use for this output.<br/>
-	/// Takes the form of "Name.Output".
+	/// E.g., YAML formatted as "{ NodeName: OutputName }".
 	/// </summary>
-	string? Dependency { get; set; }
+	Dictionary<string, string>? Dependency { get; set; }
 }

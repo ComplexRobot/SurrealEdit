@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SurrealEdit.Nodes.Validators;
 
 namespace SurrealEdit.Nodes;
@@ -8,7 +9,7 @@ namespace SurrealEdit.Nodes;
 /// <typeparam name="T">The type of the data.</typeparam>
 public class NodeInput<T> : NodeIO<T>, INodeInput {
 	/// <inheritdoc/>
-	public string? Dependency { get; set; }
+	public Dictionary<string, string>? Dependency { get; set; }
 	/// <inheritdoc/>
 	public IValidator Validator { get; set; } = default!;
 }
