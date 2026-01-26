@@ -48,40 +48,40 @@ public class Module : Node {
 				var (key, node) = keyValuePair;
 
 				var nodeTask = DependentTask.CompleteAfter([setupTask], async () => {
-					List<Task> dependentTasks = [];
+					List<Task> dependedTasks = [];
 
 					foreach (var (_, nodeInput) in node.Inputs) {
 						if (nodeInput.Dependency is null) {
 							continue;
 						}
 
-						var (dependedName, _) = nodeInput.Dependency.First();
+						var (dependencyName, _) = nodeInput.Dependency.First();
 
-						if (string.Equals(dependedName, ".", StringComparisonType)
-						|| string.Equals(dependedName, "..", StringComparisonType)) {
+						if (string.Equals(dependencyName, ".", StringComparisonType)
+						|| string.Equals(dependencyName, "..", StringComparisonType)) {
 							continue;
 						}
 
-						dependentTasks.Add(nodeTaskRegistry[dependedName]);
+						dependedTasks.Add(nodeTaskRegistry[dependencyName]);
 					}
 
-					await DependentTask.CompleteAfter(dependentTasks, async () => {
+					await DependentTask.CompleteAfter(dependedTasks, async () => {
 						foreach (var (_, nodeInput) in node.Inputs) {
 							if (nodeInput.Dependency is null) {
 								continue;
 							}
 
-							var (dependedName, dependedField) = nodeInput.Dependency.First();
+							var (dependencyName, dependencyField) = nodeInput.Dependency.First();
 
-							if (string.Equals(dependedName, ".", StringComparisonType)
-							|| string.Equals(dependedName, "..", StringComparisonType)) {
-								var moduleInput = Inputs[dependedField];
+							if (string.Equals(dependencyName, ".", StringComparisonType)
+							|| string.Equals(dependencyName, "..", StringComparisonType)) {
+								var moduleInput = Inputs[dependencyField];
 								nodeInput.GenericValue = moduleInput.GenericValue;
 								continue;
 							}
 
-							var dependedNode = nodesComparable[dependedName];
-							var nodeOutput = dependedNode.Outputs[dependedField];
+							var dependedNode = nodesComparable[dependencyName];
+							var nodeOutput = dependedNode.Outputs[dependencyField];
 							nodeInput.GenericValue = nodeOutput.GenericValue;
 						}
 
@@ -100,17 +100,17 @@ public class Module : Node {
 
 		await Task.WhenAll(nodeTaskRegistry.Values);
 
-		foreach (var (name, nodeOutput) in Outputs) {
-			var moduleOutput = (IModuleOutput)nodeOutput;
+		foreach (var (name, output) in Outputs) {
+			var moduleOutput = (IModuleOutput)output;
 
 			if (moduleOutput.Dependency is null) {
 				continue;
 			}
 
-			var (dependedName, dependedField) = moduleOutput.Dependency.First();
-			var node = nodesComparable[dependedName];
-			var output = node.Outputs[dependedField];
-			moduleOutput.GenericValue = output.GenericValue;
+			var (dependencyName, dependencyField) = moduleOutput.Dependency.First();
+			var node = nodesComparable[dependencyName];
+			var nodeOutput = node.Outputs[dependencyField];
+			moduleOutput.GenericValue = nodeOutput.GenericValue;
 		}
 	}
 }
