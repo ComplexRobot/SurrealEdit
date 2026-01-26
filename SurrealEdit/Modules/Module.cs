@@ -100,7 +100,7 @@ public class Module : Node {
 
 		await Task.WhenAll(nodeTaskRegistry.Values);
 
-		foreach (var (name, output) in Outputs) {
+		foreach (var (_, output) in Outputs) {
 			var moduleOutput = (IModuleOutput)output;
 
 			if (moduleOutput.Dependency is null) {
