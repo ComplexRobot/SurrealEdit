@@ -44,4 +44,22 @@ public class NodeIO<T> : INodeIO, IValue<T> {
 
 		Value = (T?)Convert.ChangeType(value, UnderlyingType<T>.Value);
 	}
+
+	/// <inheritdoc/>
+	public object? GetValue() => Value;
+
+	/// <inheritdoc/>
+	public void SetValue(object? value) {
+		if (default(T) is null && value is null) {
+			Value = default;
+			return;
+		}
+
+		if (value is T casted) {
+			Value = casted;
+			return;
+		}
+
+		Value = (T?)Convert.ChangeType(value, UnderlyingType<T>.Value);
+	}
 }
