@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using SurrealEdit.Nodes;
 using SurrealEdit.Utilities;
@@ -95,9 +96,14 @@ public class Module : Node {
 			taskCompletionSource.SetResult();
 		} catch (Exception exception) {
 			taskCompletionSource.SetException(exception);
-			// TODO: safely handle errors
+
+			// Prevent errors from being hidden
+			if (nodeTaskRegistry.IsEmpty) {
+				ExceptionDispatchInfo.Capture(exception).Throw();
+			}
 		}
 
+		// If an error was caught above, it will be propagated here
 		await Task.WhenAll(nodeTaskRegistry.Values);
 
 		foreach (var (_, output) in Outputs) {
