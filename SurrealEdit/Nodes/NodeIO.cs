@@ -16,6 +16,24 @@ public class NodeIO<T> : INodeIO, IValue<T> {
 	public Type DataType { get; } = typeof(T);
 	/// <inheritdoc/>
 	public T? Value { get; set; }
+	/// <inheritdoc/>
+	public object? GenericValue {
+		get => Value;
+
+		set {
+			if (default(T) is null && value is null) {
+				Value = default;
+				return;
+			}
+
+			if (value is T casted) {
+				Value = casted;
+				return;
+			}
+
+			Value = (T?)Convert.ChangeType(value, UnderlyingType<T>.Value);
+		}
+	}
 
 	/// <inheritdoc/>
 	public TCast? GetValue<TCast>() {
@@ -33,24 +51,6 @@ public class NodeIO<T> : INodeIO, IValue<T> {
 	/// <inheritdoc/>
 	public void SetValue<TCast>(TCast? value) {
 		if (default(T) is null && typeof(T) == typeof(TCast) && value is null) {
-			Value = default;
-			return;
-		}
-
-		if (value is T casted) {
-			Value = casted;
-			return;
-		}
-
-		Value = (T?)Convert.ChangeType(value, UnderlyingType<T>.Value);
-	}
-
-	/// <inheritdoc/>
-	public object? GetValue() => Value;
-
-	/// <inheritdoc/>
-	public void SetValue(object? value) {
-		if (default(T) is null && value is null) {
 			Value = default;
 			return;
 		}

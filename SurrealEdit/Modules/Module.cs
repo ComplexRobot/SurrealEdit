@@ -76,13 +76,13 @@ public class Module : Node {
 							if (string.Equals(dependedName, ".", StringComparisonType)
 							|| string.Equals(dependedName, "..", StringComparisonType)) {
 								var moduleInput = Inputs[dependedField];
-								nodeInput.SetValue(moduleInput.GetValue());
+								nodeInput.GenericValue = moduleInput.GenericValue;
 								continue;
 							}
 
 							var dependedNode = nodesComparable[dependedName];
 							var nodeOutput = dependedNode.Outputs[dependedField];
-							nodeInput.SetValue(nodeOutput.GetValue());
+							nodeInput.GenericValue = nodeOutput.GenericValue;
 						}
 
 						await node.Process();
@@ -110,7 +110,7 @@ public class Module : Node {
 			var (dependedName, dependedField) = moduleOutput.Dependency.First();
 			var node = nodesComparable[dependedName];
 			var output = node.Outputs[dependedField];
-			moduleOutput.SetValue(output.GetValue());
+			moduleOutput.GenericValue = output.GenericValue;
 		}
 	}
 }

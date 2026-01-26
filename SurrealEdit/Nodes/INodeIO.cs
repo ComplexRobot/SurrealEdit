@@ -11,6 +11,13 @@ public interface INodeIO : IDescriptor {
 	/// Type of the data.
 	/// </summary>
 	Type DataType { get; }
+	/// <summary>
+	/// Property wrapper for getting/setting the data as an unknown type.
+	/// </summary>
+	/// <remarks>
+	/// Setting the value will convert the type, if necessary.
+	/// </remarks>
+	object? GenericValue { get; set; }
 
 	/// <summary>
 	/// Extract the data from the input or output, converting the type if necessary.
@@ -29,15 +36,4 @@ public interface INodeIO : IDescriptor {
 	/// <exception cref="InvalidCastException"/>
 	/// <exception cref="OverflowException"/>
 	void SetValue<TCast>(TCast? value);
-
-	/// <summary>
-	/// Get the data of the input or output with unknown type.
-	/// </summary>
-	object? GetValue();
-
-	/// <summary>
-	/// Set the value of the data, converting the type if necessary.
-	/// </summary>
-	/// <param name="value">The value to set, which will be casted to the type of the data.</param>
-	void SetValue(object? value);
 }
