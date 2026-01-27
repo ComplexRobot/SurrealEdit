@@ -20,15 +20,17 @@ public interface INodeIODependency {
 }
 
 /// <summary>
-/// Extension methods for the <seealso cref="INodeIODependency">INodeIODependency</seealso> interface.
+/// Extensions for the <seealso cref="INodeIODependency">INodeIODependency</seealso> interface.
 /// </summary>
 public static class NodeIODependencyExtensions {
-	/// <summary>
-	/// Get the dependency as a tuple of (Name, Field).
-	/// </summary>
-	public static (string Name, string Field)? DependencyTuple(this INodeIODependency self) =>
-		self.Dependency?.First() switch {
-			var (name, field) => (name, field),
-			_ => null
-		};
+	extension(INodeIODependency nodeIODependency) {
+		/// <summary>
+		/// Get the dependency as a tuple of (Name, Field).
+		/// </summary>
+		public (string Name, string Field)? DependencyTuple =>
+			nodeIODependency.Dependency?.First() switch {
+				var (name, field_) => (name, field_),
+				_ => null
+			};
+	}
 }

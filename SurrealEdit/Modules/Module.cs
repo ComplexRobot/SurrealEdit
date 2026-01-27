@@ -52,7 +52,7 @@ public class Module : Node {
 					List<Task> dependedTasks = [];
 
 					foreach (var (_, nodeInput) in node.Inputs) {
-						if (nodeInput.DependencyTuple() is not { } dependency || IsModuleDependency(dependency.Name)) {
+						if (nodeInput.DependencyTuple is not { } dependency || IsModuleDependency(dependency.Name)) {
 							continue;
 						}
 
@@ -90,7 +90,7 @@ public class Module : Node {
 
 		// Copies the value of a required input or output to the dependent input or output.
 		void TransferDependency(INodeIODependency dependentNode) {
-			if (dependentNode.DependencyTuple() is not { } dependency) {
+			if (dependentNode.DependencyTuple is not { } dependency) {
 				return;
 			}
 
