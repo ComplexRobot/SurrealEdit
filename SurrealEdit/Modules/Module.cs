@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
@@ -37,7 +36,7 @@ public class Module : Node {
 	/// <inheritdoc/>
 	public override async Task Process() {
 		var nodesComparable = ((IEnumerable<KeyValuePair<string, INode>>)[..Nodes]).ToDictionary(StringComparer);
-		var nodeTaskRegistry = new ConcurrentDictionary<string, Task>(StringComparer);
+		var nodeTaskRegistry = new Dictionary<string, Task>(StringComparer);
 
 		var taskCompletionSource = new TaskCompletionSource();
 		var setupTask = taskCompletionSource.Task;
@@ -45,9 +44,7 @@ public class Module : Node {
 		try {
 			// TODO: Detect circular dependencies
 			// TODO: skip orphan nodes with no connected inputs or outputs
-			await Parallel.ForEachAsync(Nodes, async (keyValuePair, _) => {
-				var (key, node) = keyValuePair;
-
+			foreach (var (key, node) in Nodes) {
 				var nodeTask = Task.CompleteAfter([setupTask], async () => {
 					List<Task> dependedTasks = [];
 
@@ -68,15 +65,15 @@ public class Module : Node {
 					await node.Process();
 				});
 
-				nodeTaskRegistry.TryAdd(key, nodeTask);
-			});
+				nodeTaskRegistry.Add(key, nodeTask);
+			}
 
 			taskCompletionSource.SetResult();
 		} catch (Exception exception) {
 			taskCompletionSource.SetException(exception);
 
 			// Prevent errors from being hidden
-			if (nodeTaskRegistry.IsEmpty) {
+			if (nodeTaskRegistry.Count == 0) {
 				ExceptionDispatchInfo.Capture(exception).Throw();
 			}
 		}
