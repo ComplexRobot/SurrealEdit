@@ -46,17 +46,17 @@ public class Module : Node {
 			// TODO: skip orphan nodes with no connected inputs or outputs
 			foreach (var (key, node) in Nodes) {
 				var nodeTask = Task.CompleteAfter([setupTask], async () => {
-					List<Task> dependedTasks = [];
+					List<Task> requiredTasks = [];
 
 					foreach (var (_, nodeInput) in node.Inputs) {
 						if (nodeInput.DependencyTuple is not { } dependency || IsModuleDependency(dependency.Name)) {
 							continue;
 						}
 
-						dependedTasks.Add(nodeTaskRegistry[dependency.Name]);
+						requiredTasks.Add(nodeTaskRegistry[dependency.Name]);
 					}
 
-					await Task.WhenAll(dependedTasks);
+					await Task.WhenAll(requiredTasks);
 
 					foreach (var (_, nodeInput) in node.Inputs) {
 						TransferDependency(nodeInput);
