@@ -36,7 +36,7 @@ public class Module : Node {
 	/// <inheritdoc/>
 	public override async Task Process() {
 		var nodesComparable = ((IEnumerable<KeyValuePair<string, INode>>)[..Nodes]).ToDictionary(StringComparer);
-		var nodeTaskRegistry = new Dictionary<string, Task>(StringComparer);
+		var nodeTasks = new Dictionary<string, Task>(StringComparer);
 
 		var taskCompletionSource = new TaskCompletionSource();
 		var setupTask = taskCompletionSource.Task;
@@ -53,7 +53,7 @@ public class Module : Node {
 							continue;
 						}
 
-						requiredTasks.Add(nodeTaskRegistry[dependency.Name]);
+						requiredTasks.Add(nodeTasks[dependency.Name]);
 					}
 
 					await Task.WhenAll(requiredTasks);
@@ -65,7 +65,7 @@ public class Module : Node {
 					await node.Process();
 				});
 
-				nodeTaskRegistry.Add(key, nodeTask);
+				nodeTasks.Add(key, nodeTask);
 			}
 
 			taskCompletionSource.SetResult();
@@ -73,13 +73,13 @@ public class Module : Node {
 			taskCompletionSource.SetException(exception);
 
 			// Prevent errors from being hidden
-			if (nodeTaskRegistry.Count == 0) {
+			if (nodeTasks.Count == 0) {
 				ExceptionDispatchInfo.Capture(exception).Throw();
 			}
 		}
 
 		// If an error was caught above, it will be propagated here
-		await Task.WhenAll(nodeTaskRegistry.Values);
+		await Task.WhenAll(nodeTasks.Values);
 
 		foreach (var (_, output) in Outputs) {
 			TransferDependency((INodeIODependency)output);
