@@ -59,13 +59,13 @@ public class Module : Node {
 						dependedTasks.Add(nodeTaskRegistry[dependency.Name]);
 					}
 
-					await DependentTask.CompleteAfter(dependedTasks, async () => {
-						foreach (var (_, nodeInput) in node.Inputs) {
-							TransferDependency(nodeInput);
-						}
+					await Task.WhenAll(dependedTasks);
 
-						await node.Process();
-					});
+					foreach (var (_, nodeInput) in node.Inputs) {
+						TransferDependency(nodeInput);
+					}
+
+					await node.Process();
 				});
 
 				nodeTaskRegistry.TryAdd(key, nodeTask);
