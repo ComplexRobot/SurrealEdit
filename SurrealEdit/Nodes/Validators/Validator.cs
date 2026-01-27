@@ -7,7 +7,7 @@ namespace SurrealEdit.Nodes.Validators;
 /// <typeparam name="T">Type of the data.</typeparam>
 public abstract class Validator<T> : IValidator {
 	/// <summary>
-	/// Value shared with node for validation.
+	/// Reference to the value object to be validated.
 	/// </summary>
 	public virtual IValue<T> Value { get; set; } = default!;
 	/// <inheritdoc/>
