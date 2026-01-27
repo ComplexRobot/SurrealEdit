@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using SurrealEdit.Nodes;
@@ -35,7 +34,7 @@ public class Module : Node {
 
 	/// <inheritdoc/>
 	public override async Task Process() {
-		var nodesComparable = ((IEnumerable<KeyValuePair<string, INode>>)[..Nodes]).ToDictionary(StringComparer);
+		var nodesComparable = new Dictionary<string, INode>(Nodes, StringComparer);
 		var nodeTasks = new Dictionary<string, Task>(StringComparer);
 
 		var taskCompletionSource = new TaskCompletionSource();
