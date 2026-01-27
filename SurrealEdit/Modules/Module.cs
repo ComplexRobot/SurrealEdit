@@ -48,7 +48,7 @@ public class Module : Node {
 			await Parallel.ForEachAsync(Nodes, async (keyValuePair, _) => {
 				var (key, node) = keyValuePair;
 
-				var nodeTask = DependentTask.CompleteAfter([setupTask], async () => {
+				var nodeTask = Task.CompleteAfter([setupTask], async () => {
 					List<Task> dependedTasks = [];
 
 					foreach (var (_, nodeInput) in node.Inputs) {
