@@ -24,7 +24,7 @@ public static class TaskExtensions {
 		/// A Task that <see cref="TaskStatus.RanToCompletion">completes</see> after the
 		/// <paramref name="blockingTasks"/> and then the <paramref name="action"/> completes.
 		/// </returns>
-		public static Task CompleteAfter(IEnumerable<Task> blockingTasks, Func<Task> action) {
+		public static Task RunAfter(IEnumerable<Task> blockingTasks, Func<Task> action) {
 			var taskCompletionSource = new TaskCompletionSource();
 
 			Task.Run(async () => {

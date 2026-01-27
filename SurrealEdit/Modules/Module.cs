@@ -45,7 +45,7 @@ public class Module : Node {
 			// TODO: Detect circular dependencies
 			// TODO: skip orphan nodes with no connected inputs or outputs
 			foreach (var (key, node) in Nodes) {
-				var nodeTask = Task.CompleteAfter([setupTask], async () => {
+				var nodeTask = Task.RunAfter([setupTask], async () => {
 					List<Task> requiredTasks = [];
 
 					foreach (var (_, nodeInput) in node.Inputs) {
