@@ -16,7 +16,7 @@ public static class TaskExtensions {
 		/// <remarks>
 		/// The function returns immediately after queueing the task.<br/>
 		/// It can be used to store the returned Task object and reference it in other contexts before the action
-		/// completes.
+		/// starts.
 		/// </remarks>
 		/// <param name="blockingTasks">The collection of Tasks to wait for before completing the action.</param>
 		/// <param name="action">The awaitable action to complete.</param>
