@@ -52,38 +52,16 @@ public class Module : Node {
 					List<Task> dependedTasks = [];
 
 					foreach (var (_, nodeInput) in node.Inputs) {
-						if (nodeInput.Dependency is null) {
+						if (nodeInput.DependencyTuple() is not { } dependency || IsModuleDependency(dependency.Name)) {
 							continue;
 						}
 
-						var (dependencyName, _) = nodeInput.Dependency.First();
-
-						if (string.Equals(dependencyName, ".", StringComparisonType)
-						|| string.Equals(dependencyName, "..", StringComparisonType)) {
-							continue;
-						}
-
-						dependedTasks.Add(nodeTaskRegistry[dependencyName]);
+						dependedTasks.Add(nodeTaskRegistry[dependency.Name]);
 					}
 
 					await DependentTask.CompleteAfter(dependedTasks, async () => {
 						foreach (var (_, nodeInput) in node.Inputs) {
-							if (nodeInput.Dependency is null) {
-								continue;
-							}
-
-							var (dependencyName, dependencyField) = nodeInput.Dependency.First();
-
-							if (string.Equals(dependencyName, ".", StringComparisonType)
-							|| string.Equals(dependencyName, "..", StringComparisonType)) {
-								var moduleInput = Inputs[dependencyField];
-								nodeInput.GenericValue = moduleInput.GenericValue;
-								continue;
-							}
-
-							var dependedNode = nodesComparable[dependencyName];
-							var nodeOutput = dependedNode.Outputs[dependencyField];
-							nodeInput.GenericValue = nodeOutput.GenericValue;
+							TransferDependency(nodeInput);
 						}
 
 						await node.Process();
@@ -107,16 +85,35 @@ public class Module : Node {
 		await Task.WhenAll(nodeTaskRegistry.Values);
 
 		foreach (var (_, output) in Outputs) {
-			var moduleOutput = (IModuleOutput)output;
+			TransferDependency((INodeIODependency)output);
+		}
 
-			if (moduleOutput.Dependency is null) {
-				continue;
+		// Copies the value of a required input or output to the dependent input or output.
+		void TransferDependency(INodeIODependency dependentNode) {
+			if (dependentNode.DependencyTuple() is not { } dependency) {
+				return;
 			}
 
-			var (dependencyName, dependencyField) = moduleOutput.Dependency.First();
-			var node = nodesComparable[dependencyName];
-			var nodeOutput = node.Outputs[dependencyField];
-			moduleOutput.GenericValue = nodeOutput.GenericValue;
+			var nodeIO = (INodeIO)dependentNode;
+
+			if (IsModuleDependency(dependency.Name)) {
+				var moduleInput = Inputs[dependency.Field];
+				nodeIO.GenericValue = moduleInput.GenericValue;
+				return;
+			}
+
+			var node = nodesComparable[dependency.Name];
+			var nodeOutput = node.Outputs[dependency.Field];
+			nodeIO.GenericValue = nodeOutput.GenericValue;
 		}
 	}
+
+	/// <summary>
+	/// Check if the dependency name of a node references the current module's inputs.
+	/// </summary>
+	/// <returns>
+	/// <see langword="true"/> if the <paramref name="name"/> matches "." or "..". <see langword="false"/> otherwise.
+	/// </returns>
+	public static bool IsModuleDependency(string name) =>
+		string.Equals(name, ".", StringComparisonType) || string.Equals(name, "..", StringComparisonType);
 }
