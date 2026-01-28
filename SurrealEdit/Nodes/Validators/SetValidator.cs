@@ -13,7 +13,7 @@ public class SetValidator<T> : Validator<T>, ISetValidator {
 	/// <summary>
 	/// The possible valid values as a typed collection.
 	/// </summary>
-	public ICollection<T?> ValidValues { get; set; } = [];
+	public virtual ICollection<T?> ValidValues { get; set; } = [];
 	/// <inheritdoc/>
 	public ICollection GenericValidValues => (ICollection)ValidValues;
 
