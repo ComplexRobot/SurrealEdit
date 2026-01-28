@@ -18,11 +18,15 @@ public enum ValidatorType {
 	/// </summary>
 	Numeric,
 	/// <summary>
-	/// A validator for an array.
+	/// A validator for a collection type.
 	/// </summary>
-	Array,
+	Collection,
 	/// <summary>
 	/// A validator for a reference type, such as a custom object or dictionary.
 	/// </summary>
 	Reference,
+	/// <summary>
+	/// A validator for a finite set of possible values.
+	/// </summary>
+	Set,
 }
